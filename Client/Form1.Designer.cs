@@ -28,6 +28,8 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
+
+
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
@@ -35,4 +37,5 @@ partial class Form1
     }
 
     #endregion
+
 }
