@@ -54,20 +54,25 @@ namespace Server
 
                 while (true)
                 {
-                    // Đọc độ dài tên file
+                    // Read Name Length
                     int nameLength = reader.ReadInt32();
-                    if (nameLength == 0) break; // đọc đến hết file thì thôi
+                    if (nameLength == 0) break; // đọc đến hết tên file thì thôi
 
-                    // lấy tên file ra 
+                    // // 
+                    // Receieved Metadata
+                    // //
+
+
+                    // Read Name File
                     string fileName = Encoding.UTF8.GetString(reader.ReadBytes(nameLength));
 
-                    // lấy kích thướcc ra 
+                    // Read File Size 
                     long fileSize = reader.ReadInt64();
                     //kết hợp cả đường dẫn + tên của file.type
                     string fullPath = Path.Combine(Filepath, fileName);
                     using FileStream fs = new(fullPath, FileMode.Create);
 
-                    // 
+                    // Write it down in server
                     byte[] buffer = new byte[4096];
                     long totalRead = 0;
                     while (totalRead < fileSize)
@@ -79,7 +84,7 @@ namespace Server
 
                         // cal percent downloaded 
                         double progress = (double)totalRead / fileSize * 100;
-                        Console.Write($"\rLoading:{fileName}: {progress:f2}%");
+                        Console.Write($"\rLoading:{fileName}: {progress:f2}%\n");
                     }
 
                     Console.WriteLine($"File {fileName} received ({fileSize} bytes).");

@@ -36,14 +36,18 @@ static class Program
             byte[] nameBytes = Encoding.UTF8.GetBytes(fileName);
             long fileSize = new FileInfo(filePath).Length;
 
-            // Gửi độ dài tên file
+            // //
+            // Create Metadata
+            // //
+
+            // Sent Name Length
             writer.Write(nameBytes.Length);
-            // Gửi tên file
+            // Sent Name File
             writer.Write(nameBytes);
-            // Gửi kích thước file
+            // Sent File Size
             writer.Write(fileSize);
 
-            // Gửi dữ liệu file
+            // Sent File Data
             using FileStream fs = new(filePath, FileMode.Open, FileAccess.Read);
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -54,7 +58,7 @@ static class Program
                 totalRead += bytesRead;
                 // cal percent downloaded 
                 double progress = (double)totalRead / fileSize * 100;
-                Console.Write($"\rLoading:{fileName}: {progress:f2}%");
+                Console.Write($"\rLoading:{fileName}: {progress:f2}%\n");
             }
 
             Console.WriteLine($"Đã gửi file {fileName} ({fileSize} bytes).");
