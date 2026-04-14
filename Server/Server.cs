@@ -14,26 +14,24 @@ namespace Server
         //Setting up server
         public static void Main(string[] args)
         {
-
-            // ReceievedFile(@"..\ReceivedFile", 6767);
-            //Get file from client
+            StartServer(@"../ReceivedFIle",6767);
         }
 
         // Setting up server to receive file from client
-        private static void ReceievedFile(string Filepath, int Port)
+        private static void StartServer(string Filepath, int Port)
         {
             //Using this Thread for only Server LOOP!
-            Console.WriteLine("Server's Starting...");
             Thread ServerThread = new(() =>
             {
-                TcpListener server = new(IPAddress.Any, 6767);
+                TcpListener server = new(IPAddress.Any, Port);
                 server.Start();
                 Console.WriteLine("Server's Starting");
-
                 while (true)
                 {
+                    
+                    Console.WriteLine("Server's waiting for client!!\n");
                     TcpClient client_ = server.AcceptTcpClient();
-                    Console.WriteLine("Client Connected with" + client_.Client.RemoteEndPoint);
+                    Console.WriteLine("\nClient Connected with" + client_.Client.RemoteEndPoint);
 
 
                     //This Thread for Every Single CLIENT!!
@@ -44,6 +42,7 @@ namespace Server
                     clientsThread.Start();
                 }
             });
+            ServerThread.Start();
         }
 
         private static void HandleClient(TcpClient client_, string Filepath)
@@ -95,8 +94,11 @@ namespace Server
             finally
             {
                 client_.Close();
+
             }
 
+            Console.WriteLine("server closed");
+            
         }
     }
 

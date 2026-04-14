@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BTL\\BTL .NET\\Server\\Server.csproj": {}
+    "D:\\BTL\\BTL .NET\\server\\Server.csproj": {}
   },
   "projects": {
-    "D:\\BTL\\BTL .NET\\Server\\Server.csproj": {
+    "D:\\BTL\\BTL .NET\\server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BTL\\BTL .NET\\Server\\Server.csproj",
+        "projectUniqueName": "D:\\BTL\\BTL .NET\\server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "D:\\BTL\\BTL .NET\\Server\\Server.csproj",
+        "projectPath": "D:\\BTL\\BTL .NET\\server\\Server.csproj",
         "packagesPath": "C:\\Users\\anhtu\\.nuget\\packages\\",
-        "outputPath": "D:\\BTL\\BTL .NET\\Server\\obj\\",
+        "outputPath": "D:\\BTL\\BTL .NET\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\anhtu\\AppData\\Roaming\\NuGet\\NuGet.Config"

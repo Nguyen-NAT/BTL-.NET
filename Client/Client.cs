@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace Client;
 
@@ -11,9 +12,9 @@ static class Program
     [STAThread]
     static void Main()
     {
-
+        string[] filesToSend = { "../FileToSend/test.txt" };
         //Set up Client Conn
-        SendFile(@"..\FileToSend", "127.0.0.1", 6767);
+        SendFiles("127.0.0.1", 6767, filesToSend);
 
 
         // To customize application configuration such as set high DPI settings or default font,
@@ -23,17 +24,46 @@ static class Program
 
     }
 
-    private static void SendFile(String FileName, String IPAddress, int Port)
+    private static void SendFiles(string serverIp, int port, string[] files)
     {
-        TcpClient TcpClient = new (IPAddress, Port);
-        NetworkStream NetworkStream = TcpClient.GetStream();
-        using FileStream File = new(FileName, FileMode.Open, FileAccess.Read);
+        using TcpClient client = new(serverIp, port);
+        using NetworkStream stream = client.GetStream();
+        using BinaryWriter writer = new(stream);
 
-        byte[] FileBuffer = new byte[File.Length];
+        foreach (string filePath in files)
+        {
+            string fileName = Path.GetFileName(filePath);
+            byte[] nameBytes = Encoding.UTF8.GetBytes(fileName);
+            long fileSize = new FileInfo(filePath).Length;
 
-        File.ReadExactly(FileBuffer, 0, (int)File.Length);
-        NetworkStream.Write(FileBuffer, 0, FileBuffer.GetLength(0));
-        NetworkStream.Close();
+            // Gửi độ dài tên file
+            writer.Write(nameBytes.Length);
+            // Gửi tên file
+            writer.Write(nameBytes);
+            // Gửi kích thước file
+            writer.Write(fileSize);
 
+            // Gửi dữ liệu file
+            using FileStream fs = new(filePath, FileMode.Open, FileAccess.Read);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            long totalRead = 0;
+            while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                stream.Write(buffer, 0, bytesRead);
+                totalRead += bytesRead;
+                // cal percent downloaded 
+                double progress = (double)totalRead / fileSize * 100;
+                Console.Write($"\rLoading:{fileName}: {progress:f2}%");
+            }
+
+            Console.WriteLine($"Đã gửi file {fileName} ({fileSize} bytes).");
+        }
+
+        // Gửi tín hiệu kết thúc (nameLength = 0)
+        writer.Write(0);
+
+        Console.WriteLine("Hoàn tất gửi tất cả file.");
     }
+
 }
