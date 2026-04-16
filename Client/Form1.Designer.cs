@@ -157,9 +157,9 @@ partial class Form1
 
             // this.ContentLabel.Location = new Point(16, 24);
             this.Content.Location = new Point(16, 30);
-            this.Content.Size = new Size(320, 100);
-            this.Picturebox.Location = new Point(16, 140);
-            this.Picturebox.Size = new Size(320, 120);
+            this.Content.Size = new Size(320, 230);
+            this.Picturebox.Location = new Point(16, 30);
+            this.Picturebox.Size = new Size(320, 230);
 
             // gbContent.Controls.Add(this.ContentLabel);
             gbContent.Controls.Add(this.Content);
