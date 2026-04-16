@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj": {}
+    "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj": {}
   },
   "projects": {
-    "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj": {
+    "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj",
+        "projectUniqueName": "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj",
+        "projectPath": "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj",
         "packagesPath": "C:\\Users\\Duc Anh\\.nuget\\packages\\",
-        "outputPath": "D:\\BTL.Net\\BTL-.NEt\\Client\\obj\\",
+        "outputPath": "D:\\BTL.Net\\BTL-.NET\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Duc Anh\\AppData\\Roaming\\NuGet\\NuGet.Config"
