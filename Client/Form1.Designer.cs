@@ -34,32 +34,51 @@ partial class Form1
     private System.Windows.Forms.Button Addfile;
     private System.Windows.Forms.Button Clear;
     private System.Windows.Forms.Button Exit;
+    private System.Windows.Forms.Label LoadfileNof;
+    private System.Windows.Forms.Label ContentLabel;
+    private System.Windows.Forms.Label TitleLabel;
+    
     private void InitializeComponent()
-    {
+    {       
 
-            
-            
-
+            this.LoadfileNof = new System.Windows.Forms.Label();
+            this.LoadfileNof.Location = new System.Drawing.Point(72, 8);
+            this.LoadfileNof.Size = new System.Drawing.Size(200, 24);
+    
 
             this.Content = new System.Windows.Forms.TextBox();
-            this.Content.Location = new System.Drawing.Point(64, 160);
+            this.Content.Location = new System.Drawing.Point(48, 160);
             this.Content.Size = new System.Drawing.Size(304, 144);
             this.Content.Multiline = true;
-           
+            this.Content.PlaceholderText = "Nội dung...";
+            this.Content.ScrollBars = ScrollBars.Vertical;
+            this.Content.WordWrap = true;
             
+            this.ContentLabel = new System.Windows.Forms.Label();
+            this.ContentLabel.Location = new System.Drawing.Point(48, 136);
+            this.ContentLabel.Size = new System.Drawing.Size(128, 24);
+            this.ContentLabel.Text = "Nhập nội dung:";
 
             this.Title = new System.Windows.Forms.TextBox();
-            this.Title.Location = new System.Drawing.Point(64, 56);
-            this.Title.Size = new System.Drawing.Size(304, 54);
+            this.Title.Location = new System.Drawing.Point(48, 64);
+            this.Title.Size = new System.Drawing.Size(304, 48);
             this.Title.Multiline = true;
-            
+            this.Title.PlaceholderText = "Tiêu đề...";
+            // this.Title.ScrollBars = ScrollBars.Horizontal;
+            // this.Title.WordWrap = false;
+                
+
+            this.TitleLabel = new System.Windows.Forms.Label();
+            this.TitleLabel.Location = new System.Drawing.Point(48, 40);
+            this.TitleLabel.Size = new System.Drawing.Size(112, 24);
+            this.TitleLabel.Text = "Nhập tiêu đề:";
 
             this.Notification = new System.Windows.Forms.Label();
-            this.Notification.Location = new System.Drawing.Point(80, 16);
-            this.Notification.Size = new System.Drawing.Size(256, 24);
+            this.Notification.Location = new System.Drawing.Point(344, 8);
+            this.Notification.Size = new System.Drawing.Size(216, 24);
 
             this.Exit = new System.Windows.Forms.Button();
-            this.Exit.Location = new System.Drawing.Point(408, 344);
+            this.Exit.Location = new System.Drawing.Point(408, 336);
             this.Exit.Size = new System.Drawing.Size(112, 40);
             this.Exit.Text = "Exit";
 
@@ -69,17 +88,17 @@ partial class Form1
             this.Clear.Text = "Clear";
 
             this.Addfile = new System.Windows.Forms.Button();
-            this.Addfile.Location = new System.Drawing.Point(408, 152);
-            this.Addfile.Size = new System.Drawing.Size(112, 48);
+            this.Addfile.Location = new System.Drawing.Point(408, 168);
+            this.Addfile.Size = new System.Drawing.Size(112, 40);
             this.Addfile.Text = "Addfile";
 
             this.Send = new System.Windows.Forms.Button();
-            this.Send.Location = new System.Drawing.Point(408, 88);
+            this.Send.Location = new System.Drawing.Point(408, 112);
             this.Send.Size = new System.Drawing.Size(112, 40);
             this.Send.Text = "Send";
 
             this.Connect = new System.Windows.Forms.Button();
-            this.Connect.Location = new System.Drawing.Point(408, 24);
+            this.Connect.Location = new System.Drawing.Point(408, 56);
             this.Connect.Size = new System.Drawing.Size(112, 40);
             this.Connect.Text = "Connect";
 
@@ -88,6 +107,9 @@ partial class Form1
             this.Controls.Add(this.Content);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.Notification);
+            this.Controls.Add(this.LoadfileNof);
+            this.Controls.Add(this.TitleLabel);
+            this.Controls.Add(this.ContentLabel);
 
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
             this.Controls.Add(this.Exit);
