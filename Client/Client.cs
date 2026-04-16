@@ -24,6 +24,7 @@ static class Program
 
     }
 
+
     private static void SendFiles(string serverIp, int port, string[] files)
     {
         // using TcpClient client = new(serverIp, port);
