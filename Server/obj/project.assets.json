@@ -8,19 +8,19 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\NAT\\.nuget\\packages\\": {}
+    "C:\\Users\\Duc Anh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\EAUT\\BTL-.NET\\Server\\Server.csproj",
+      "projectUniqueName": "D:\\BTL.Net\\BTL-.NET\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "D:\\EAUT\\BTL-.NET\\Server\\Server.csproj",
-      "packagesPath": "C:\\Users\\NAT\\.nuget\\packages\\",
-      "outputPath": "D:\\EAUT\\BTL-.NET\\Server\\obj\\",
+      "projectPath": "D:\\BTL.Net\\BTL-.NET\\Server\\Server.csproj",
+      "packagesPath": "C:\\Users\\Duc Anh\\.nuget\\packages\\",
+      "outputPath": "D:\\BTL.Net\\BTL-.NET\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\NAT\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Duc Anh\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
