@@ -27,6 +27,7 @@ partial class Form1
     ///  the contents of this method with the code editor.
     /// </summary>
     private System.Windows.Forms.TextBox Title;
+    
     private System.Windows.Forms.TextBox Content;
     private System.Windows.Forms.Label Notification;
     private System.Windows.Forms.Button Connect;
