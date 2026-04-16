@@ -102,7 +102,7 @@ namespace Server
 
             }
 
-            Console.WriteLine("server closed");
+            // Console.WriteLine("server closed");
             
         }
     }

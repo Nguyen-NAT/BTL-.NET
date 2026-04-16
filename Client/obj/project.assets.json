@@ -8,19 +8,19 @@
     "net10.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Duc Anh\\.nuget\\packages\\": {}
+    "C:\\Users\\NAT\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj",
+      "projectUniqueName": "D:\\EAUT\\BTL-.NET\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "D:\\BTL.Net\\BTL-.NET\\Client\\Client.csproj",
-      "packagesPath": "C:\\Users\\Duc Anh\\.nuget\\packages\\",
-      "outputPath": "D:\\BTL.Net\\BTL-.NET\\Client\\obj\\",
+      "projectPath": "D:\\EAUT\\BTL-.NET\\Client\\Client.csproj",
+      "packagesPath": "C:\\Users\\NAT\\.nuget\\packages\\",
+      "outputPath": "D:\\EAUT\\BTL-.NET\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Duc Anh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\NAT\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0-windows"
