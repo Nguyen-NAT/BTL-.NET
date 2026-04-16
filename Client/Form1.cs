@@ -122,4 +122,17 @@ public partial class Form1 : Form
         Notification.Text = mess;
     }
 
+
+
+
+    private void Listbox_SelectedIndexChanged(object sender, EventArgs e)
+
+
+    {
+
+
+        
+
+
+    }
 }

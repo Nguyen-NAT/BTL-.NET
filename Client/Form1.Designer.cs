@@ -37,100 +37,191 @@ partial class Form1
     private System.Windows.Forms.Label LoadfileNof;
     private System.Windows.Forms.Label ContentLabel;
     private System.Windows.Forms.Label TitleLabel;
+    private System.Windows.Forms.PictureBox Picturebox;
+    private System.Windows.Forms.ListBox Listbox;
+
     
     private void InitializeComponent()
 
-    {       
+    {
 
             this.LoadfileNof = new System.Windows.Forms.Label();
             this.LoadfileNof.Location = new System.Drawing.Point(48, 8);
-            this.LoadfileNof.Size = new System.Drawing.Size(200, 24);
+            this.LoadfileNof.Size = new System.Drawing.Size(224, 24);
     
 
             this.Content = new System.Windows.Forms.TextBox();
-            this.Content.Location = new System.Drawing.Point(48, 160);
-            this.Content.Size = new System.Drawing.Size(304, 144);
+            this.Content.Location = new System.Drawing.Point(48, 200);
+            this.Content.Size = new System.Drawing.Size(288, 192);
             this.Content.Multiline = true;
-            this.Content.PlaceholderText = "Nội dung...";
+            this.Content.PlaceholderText = "Nhập nội dung...";
             this.Content.ScrollBars = ScrollBars.Vertical;
             this.Content.WordWrap = true;
+            this.Content.ReadOnly = true;
+            
             
             this.ContentLabel = new System.Windows.Forms.Label();
-            this.ContentLabel.Location = new System.Drawing.Point(48, 136);
+            this.ContentLabel.Location = new System.Drawing.Point(48, 176);
             this.ContentLabel.Size = new System.Drawing.Size(128, 24);
-            this.ContentLabel.Text = "Nhập nội dung:";
+            // this.ContentLabel.Text = "Nội dung/Ảnh:";
 
             this.Title = new System.Windows.Forms.TextBox();
-            this.Title.Location = new System.Drawing.Point(48, 64);
-            this.Title.Size = new System.Drawing.Size(304, 48);
+            this.Title.Location = new System.Drawing.Point(48, 72);
+            this.Title.Size = new System.Drawing.Size(160, 40);
             this.Title.Multiline = true;
-            this.Title.PlaceholderText = "Tiêu đề...";
+            this.Title.PlaceholderText = "Số lượng...";
             // this.Title.ScrollBars = ScrollBars.Horizontal;
             // this.Title.WordWrap = false;
                 
 
             this.TitleLabel = new System.Windows.Forms.Label();
-            this.TitleLabel.Location = new System.Drawing.Point(48, 40);
+            this.TitleLabel.Location = new System.Drawing.Point(48, 48);
             this.TitleLabel.Size = new System.Drawing.Size(112, 24);
-            this.TitleLabel.Text = "Nhập tiêu đề:";
+            // this.TitleLabel.Text = "Tiêu đề:";
+
+            this.Listbox = new System.Windows.Forms.ListBox();
+            this.Listbox.Location = new System.Drawing.Point(48, 112);
+            this.Listbox.Size = new System.Drawing.Size(288, 48);
+
+            this.Picturebox = new System.Windows.Forms.PictureBox();
+            this.Picturebox.Location = new System.Drawing.Point(48, 200);
+            this.Picturebox.Size = new System.Drawing.Size(288, 192);
+            this.Picturebox.SizeMode = PictureBoxSizeMode.Zoom;
 
             this.Notification = new System.Windows.Forms.Label();
-            this.Notification.Location = new System.Drawing.Point(312, 8);
-            this.Notification.Size = new System.Drawing.Size(248, 24);
+            this.Notification.Location = new System.Drawing.Point(352, 8);
+            this.Notification.Size = new System.Drawing.Size(224, 24);
 
             this.Exit = new System.Windows.Forms.Button();
-            this.Exit.Location = new System.Drawing.Point(408, 336);
+            this.Exit.Location = new System.Drawing.Point(440, 352);
             this.Exit.Size = new System.Drawing.Size(112, 40);
-            this.Exit.Text = "Exit";
+            this.Exit.Text = "Thoát";
 
             this.Clear = new System.Windows.Forms.Button();
-            this.Clear.Location = new System.Drawing.Point(408, 272);
+            this.Clear.Location = new System.Drawing.Point(440, 296);
             this.Clear.Size = new System.Drawing.Size(112, 40);
-            this.Clear.Text = "Clear";
+            this.Clear.Text = "Xóa";
 
             this.Addfile = new System.Windows.Forms.Button();
-            this.Addfile.Location = new System.Drawing.Point(408, 168);
+            this.Addfile.Location = new System.Drawing.Point(440, 160);
             this.Addfile.Size = new System.Drawing.Size(112, 40);
-            this.Addfile.Text = "Addfile";
+            this.Addfile.Text = "Thêm File";
 
             this.Send = new System.Windows.Forms.Button();
-            this.Send.Location = new System.Drawing.Point(408, 104);
+            this.Send.Location = new System.Drawing.Point(440, 224);
             this.Send.Size = new System.Drawing.Size(112, 40);
-            this.Send.Text = "Send";
+            this.Send.Text = "Gửi";
 
             this.Connect = new System.Windows.Forms.Button();
-            this.Connect.Location = new System.Drawing.Point(408, 40);
+            this.Connect.Location = new System.Drawing.Point(440, 96);
             this.Connect.Size = new System.Drawing.Size(112, 40);
-            this.Connect.Text = "Connect";
+            this.Connect.Text = "Kết Nối";
+
+
+            
+            this.Picturebox.BorderStyle = BorderStyle.FixedSingle;
+
+            this.FormBorderStyle = FormBorderStyle.Fixed3D;
+
+
+            // Khung Panel bao quanh toàn bộ nội dung
+            Panel mainPanel = new Panel();
+            mainPanel.Location = new Point(20, 20);
+            mainPanel.Size = new Size(600, 450);    
+            mainPanel.BorderStyle = BorderStyle.FixedSingle; 
+            
+
+
+            // GroupBox cho Tiêu đề
+            GroupBox gbTitle = new GroupBox();
+            gbTitle.Text = "Tiêu đề";
+            gbTitle.Location = new Point(40, 40);
+            gbTitle.Size = new Size(360, 120);
+
+            // Thêm các control liên quan vào GroupBox
+            // this.TitleLabel.Location = new Point(16, 24);
+            this.Title.Location = new Point(16, 30);
+            this.Title.Size = new Size(320, 30);
+            this.Listbox.Location = new Point(16, 70);
+            this.Listbox.Size = new Size(320, 45);
+
+            // gbTitle.Controls.Add(this.TitleLabel);
+            gbTitle.Controls.Add(this.Title);
+            gbTitle.Controls.Add(this.Listbox);
+
+            // GroupBox cho Nội dung/Ảnh
+            GroupBox gbContent = new GroupBox();
+            gbContent.Text = "Nội dung / Ảnh";
+            gbContent.Location = new Point(40, 180);
+            gbContent.Size = new Size(360, 270);
+
+            // this.ContentLabel.Location = new Point(16, 24);
+            this.Content.Location = new Point(16, 30);
+            this.Content.Size = new Size(320, 100);
+            this.Picturebox.Location = new Point(16, 140);
+            this.Picturebox.Size = new Size(320, 120);
+
+            // gbContent.Controls.Add(this.ContentLabel);
+            gbContent.Controls.Add(this.Content);
+            gbContent.Controls.Add(this.Picturebox);
+
+            GroupBox gbButtons = new GroupBox();
+            gbButtons.Text = "Chức năng";
+            gbButtons.Location = new Point(430, 60);
+            gbButtons.Size = new Size(160, 340);
+
+            this.Connect.Location = new Point(20, 30);
+            this.Addfile.Location = new Point(20, 90);
+            this.Send.Location = new Point(20, 150);
+            this.Clear.Location = new Point(20, 210);
+            this.Exit.Location = new Point(20, 270);
+
+            gbButtons.Controls.Add(this.Connect);
+            gbButtons.Controls.Add(this.Addfile);
+            gbButtons.Controls.Add(this.Send);
+            gbButtons.Controls.Add(this.Clear);
+            gbButtons.Controls.Add(this.Exit);
+
+            // Thêm các GroupBox vào Form
+            this.Controls.Add(gbTitle);
+            this.Controls.Add(gbContent);
+            this.Controls.Add(gbButtons);
+
+            this.Controls.Add(mainPanel);
 
 
 
-            this.Controls.Add(this.Content);
-            this.Controls.Add(this.Title);
-            this.Controls.Add(this.Notification);
-            this.Controls.Add(this.LoadfileNof);
-            this.Controls.Add(this.TitleLabel);
-            this.Controls.Add(this.ContentLabel);
+            
+
+
+            // this.Controls.Add(this.Content);
+            // this.Controls.Add(this.Title);
+            // this.Controls.Add(this.Notification);
+            // this.Controls.Add(this.LoadfileNof);
+            // this.Controls.Add(this.TitleLabel);
+            // this.Controls.Add(this.ContentLabel);
+            // this.Controls.Add(this.Picturebox);
+            // this.Controls.Add(this.TitlePicture);
 
             
         this.Exit.Click += new System.EventHandler(this.Exit_Click);
-        this.Controls.Add(this.Exit);
+        // this.Controls.Add(this.Exit);
 
         this.Clear.Click += new System.EventHandler(this.Clear_Click);
-        this.Controls.Add(this.Clear);
+        // this.Controls.Add(this.Clear);
 
         this.Addfile.Click += new System.EventHandler(this.Addfile_Click);
-        this.Controls.Add(this.Addfile);
+        // this.Controls.Add(this.Addfile);
 
         this.Send.Click += new System.EventHandler(this.Send_Click);
-        this.Controls.Add(this.Send);
+        // this.Controls.Add(this.Send);
 
         this.Connect.Click += new System.EventHandler(this.Connect_Click);
-        this.Controls.Add(this.Connect);
+        // this.Controls.Add(this.Connect);
 
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(600, 450);
+        ClientSize = new Size(650, 500);
         Text = "Form1";
     }
 
