@@ -10,25 +10,27 @@ public partial class Form1 : Form
     readonly int port = 6767;
 
     //declare a client;
-    TcpClient client = null;
-    string[] filesToSend = 
-    { 
-        "../FileToSend/test.txt",
-        "../FileToSend/file1.txt"
-    };
+    TcpClient? client = null;
+    string[] filesToSend = [];
 
     public Form1()
     {
         InitializeComponent();
+        Send.Enabled = false;
     }
 
     private void Connect_Click(object sender, EventArgs e)
     {
         // Connect to the Server !!
         client = new(serverIp, port);
-        if (client.Connected) Message("Đã kết đối đến Server thành công!");
+        if (client.Connected)
+        {
+            Message("Đã kết đối đến Server thành công!");
+            Send.Enabled = true;
+            filesToSend = []; // reset queue
+        }
         else Message("Không thể kết nối đến Server!");
-        
+
         // this will include Endpoint
     }
 
@@ -45,7 +47,7 @@ public partial class Form1 : Form
             long fileSize = new FileInfo(filePath).Length;
 
             // //
-            // Create Metadata
+            // Send Metadata
             // //
 
             // Sent Name Length
@@ -54,34 +56,54 @@ public partial class Form1 : Form
             writer.Write(nameBytes);
             // Sent File Size
             writer.Write(fileSize);
-            
-            
+
+
             // 
             // Sent File's Data
             // 
-            using FileStream fs = new(filePath, FileMode.Open, FileAccess.Read);
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            long totalRead = 0;
-            while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                stream.Write(buffer, 0, bytesRead);
-                totalRead += bytesRead;
-                // cal percent downloaded 
-                double progress = (double)totalRead / fileSize * 100;
-                Console.Write($"\rLoading:{fileName}: {progress:f2}%\n");
-            }
+            using FileStream File = new(filePath, FileMode.Open, FileAccess.Read);
+            File.CopyTo(stream);
 
-            Console.WriteLine($"Đã gửi file {fileName} ({fileSize} bytes).");
+            // Legacy Code do NOT touch!
+            // byte[] buffer = new byte[4096];
+            // int bytesRead;
+            // long totalRead = 0;
+            // while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+            // {
+            //     stream.Write(buffer, 0, bytesRead);
+            //     totalRead += bytesRead;
+            //     // cal percent downloaded 
+            //     double progress = (double)totalRead / fileSize * 100;
+            //     Console.Write($"\rLoading:{fileName}: {progress:f2}%");
+            //     Console.WriteLine();
+            // }
+
+            // Console.WriteLine($"Đã gửi file {fileName} ({fileSize} bytes).");
         }
-        writer.Write(0);
+        writer.Write(0); // marker end
+        // Console.WriteLine("ok");        
         // Stop Writing All Files Are Sent 
 
     }
 
     private void Addfile_Click(object sender, EventArgs e)
     {
-        
+        filesToSend = [];
+        using OpenFileDialog Explorer = new()
+        {
+            Title = "Choose Your File!",
+            Filter = "(*.*)|*.*", // Allow any file you want
+            Multiselect = true
+        };
+
+        if (Explorer.ShowDialog() == DialogResult.OK)
+        {
+            // Thêm các file được chọn vào danh sách
+            var newFiles = Explorer.FileNames;
+            filesToSend = filesToSend.Concat(newFiles).ToArray();
+
+            Message($"Đã thêm {newFiles.Length} file vào danh sách gửi.");
+        }
     }
 
     private void Clear_Click(object sender, EventArgs e)

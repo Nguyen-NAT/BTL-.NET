@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj": {}
+    "D:\\BTL\\BTL .NET\\client\\Client.csproj": {}
   },
   "projects": {
-    "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj": {
+    "D:\\BTL\\BTL .NET\\client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj",
+        "projectUniqueName": "D:\\BTL\\BTL .NET\\client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "D:\\BTL.Net\\BTL-.NEt\\Client\\Client.csproj",
-        "packagesPath": "C:\\Users\\Duc Anh\\.nuget\\packages\\",
-        "outputPath": "D:\\BTL.Net\\BTL-.NEt\\Client\\obj\\",
+        "projectPath": "D:\\BTL\\BTL .NET\\client\\Client.csproj",
+        "packagesPath": "C:\\Users\\anhtu\\.nuget\\packages\\",
+        "outputPath": "D:\\BTL\\BTL .NET\\client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Duc Anh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\anhtu\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0-windows"
