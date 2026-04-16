@@ -96,6 +96,10 @@ namespace Server
                 //     Console.Write($"\rLoading {fileName}:  {progress:f2}%");
                 // }
 
+                // FUCK YOU DUC ANH
+
+
+
                 Console.WriteLine($"File {fileName} received ({fileSize} bytes).");
             }
 
