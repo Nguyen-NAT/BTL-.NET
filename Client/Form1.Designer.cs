@@ -57,8 +57,8 @@ partial class Form1
             this.Downloadbar.Size = new System.Drawing.Size(160, 24);
 
             this.LoadfileNof = new System.Windows.Forms.Label();
-            this.LoadfileNof.Location = new System.Drawing.Point(96, 32);
-            this.LoadfileNof.Size = new System.Drawing.Size(184, 24);
+            this.LoadfileNof.Location = new System.Drawing.Point(104, 8);
+            this.LoadfileNof.Size = new System.Drawing.Size(104, 24);
     
 
             this.Content = new System.Windows.Forms.TextBox();
@@ -100,8 +100,8 @@ partial class Form1
             this.Picturebox.SizeMode = PictureBoxSizeMode.Zoom;
 
             this.Notification = new System.Windows.Forms.Label();
-            this.Notification.Location = new System.Drawing.Point(335, 32);
-            this.Notification.Size = new System.Drawing.Size(260, 24);
+            this.Notification.Location = new System.Drawing.Point(32, 32);
+            this.Notification.Size = new System.Drawing.Size(536, 24);
             this.Notification.TextAlign = ContentAlignment.MiddleRight;
 
             this.Exit = new System.Windows.Forms.Button();
@@ -199,7 +199,7 @@ partial class Form1
             this.Controls.Add(gbContent);
             this.Controls.Add(gbButtons);
             this.Controls.Add(Notification);
-            this.Controls.Add(LoadfileNof);
+            // this.Controls.Add(LoadfileNof);
             this.Controls.Add(Downloadbar);
             this.Controls.Add(DownloadNof);
 
