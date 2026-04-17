@@ -235,6 +235,8 @@ partial class Form1
         this.Connect.Click += new System.EventHandler(this.Connect_Click);
         // this.Controls.Add(this.Connect);
 
+        this.Listbox.SelectedIndexChanged += new System.EventHandler(this.Listbox_SelectedIndexChanged);
+
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(650, 550);

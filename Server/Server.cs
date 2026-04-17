@@ -40,9 +40,11 @@ namespace Server
                     {
                         HandleClient(client_, Filepath);
                     });
+                    // clientsThread.IsBackground = true; 
                     clientsThread.Start();
                 }
             });
+            // ServerThread.IsBackground = true;
             ServerThread.Start();
         }
 
@@ -101,8 +103,8 @@ namespace Server
                 Console.WriteLine($"File {fileName} received ({fileSize} bytes).");
             }
 
-            Console.WriteLine("Client finished sending files.");
             client_.Close();
+            Console.WriteLine("Client finished sending files.");
 
         }
         private static void CopyFixedBytes(Stream input, Stream output, long bytesToCopy, string fileName)
