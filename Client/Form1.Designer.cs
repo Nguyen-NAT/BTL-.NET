@@ -39,15 +39,26 @@ partial class Form1
     private System.Windows.Forms.Label TitleLabel;
     private System.Windows.Forms.PictureBox Picturebox;
     private System.Windows.Forms.ListBox Listbox;
+    private System.Windows.Forms.ProgressBar Downloadbar;
+    private System.Windows.Forms.Label DownloadNof;
 
     
     private void InitializeComponent()
 
     {
+            this.DownloadNof = new System.Windows.Forms.Label();
+            this.DownloadNof.Location = new System.Drawing.Point(430, 446);
+            this.DownloadNof.Size = new System.Drawing.Size(160, 24);
+            this.DownloadNof.Text = "Loading:";
+
+
+            this.Downloadbar = new System.Windows.Forms.ProgressBar();
+            this.Downloadbar.Location = new System.Drawing.Point(430, 466);
+            this.Downloadbar.Size = new System.Drawing.Size(160, 24);
 
             this.LoadfileNof = new System.Windows.Forms.Label();
-            this.LoadfileNof.Location = new System.Drawing.Point(48, 8);
-            this.LoadfileNof.Size = new System.Drawing.Size(224, 24);
+            this.LoadfileNof.Location = new System.Drawing.Point(96, 32);
+            this.LoadfileNof.Size = new System.Drawing.Size(184, 24);
     
 
             this.Content = new System.Windows.Forms.TextBox();
@@ -89,8 +100,9 @@ partial class Form1
             this.Picturebox.SizeMode = PictureBoxSizeMode.Zoom;
 
             this.Notification = new System.Windows.Forms.Label();
-            this.Notification.Location = new System.Drawing.Point(352, 8);
-            this.Notification.Size = new System.Drawing.Size(224, 24);
+            this.Notification.Location = new System.Drawing.Point(335, 32);
+            this.Notification.Size = new System.Drawing.Size(260, 24);
+            this.Notification.TextAlign = ContentAlignment.MiddleRight;
 
             this.Exit = new System.Windows.Forms.Button();
             this.Exit.Location = new System.Drawing.Point(440, 352);
@@ -127,7 +139,7 @@ partial class Form1
             // Khung Panel bao quanh toàn bộ nội dung
             Panel mainPanel = new Panel();
             mainPanel.Location = new Point(20, 20);
-            mainPanel.Size = new Size(600, 450);    
+            mainPanel.Size = new Size(600, 500);    
             mainPanel.BorderStyle = BorderStyle.FixedSingle; 
             
 
@@ -135,8 +147,8 @@ partial class Form1
             // GroupBox cho Tiêu đề
             GroupBox gbTitle = new GroupBox();
             gbTitle.Text = "Tiêu đề";
-            gbTitle.Location = new Point(40, 40);
-            gbTitle.Size = new Size(360, 120);
+            gbTitle.Location = new Point(40, 70);
+            gbTitle.Size = new Size(360, 130);
 
             // Thêm các control liên quan vào GroupBox
             // this.TitleLabel.Location = new Point(16, 24);
@@ -152,7 +164,7 @@ partial class Form1
             // GroupBox cho Nội dung/Ảnh
             GroupBox gbContent = new GroupBox();
             gbContent.Text = "Nội dung / Ảnh";
-            gbContent.Location = new Point(40, 180);
+            gbContent.Location = new Point(40, 220);
             gbContent.Size = new Size(360, 270);
 
             // this.ContentLabel.Location = new Point(16, 24);
@@ -167,7 +179,7 @@ partial class Form1
 
             GroupBox gbButtons = new GroupBox();
             gbButtons.Text = "Chức năng";
-            gbButtons.Location = new Point(430, 60);
+            gbButtons.Location = new Point(430, 70);
             gbButtons.Size = new Size(160, 340);
 
             this.Connect.Location = new Point(20, 30);
@@ -186,6 +198,10 @@ partial class Form1
             this.Controls.Add(gbTitle);
             this.Controls.Add(gbContent);
             this.Controls.Add(gbButtons);
+            this.Controls.Add(Notification);
+            this.Controls.Add(LoadfileNof);
+            this.Controls.Add(Downloadbar);
+            this.Controls.Add(DownloadNof);
 
             this.Controls.Add(mainPanel);
 
@@ -221,7 +237,7 @@ partial class Form1
 
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(650, 500);
+        ClientSize = new Size(650, 550);
         Text = "Form1";
     }
 
