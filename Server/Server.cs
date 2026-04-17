@@ -70,6 +70,7 @@ namespace Server
                     break; // marker kết thúc
                 }
 
+
                 // Read Name File
                 string fileName = Encoding.UTF8.GetString(reader.ReadBytes(nameLength));
                 // Read File Size 
