@@ -23,18 +23,25 @@ public partial class Form1 : Form
 
     private void Connect_Click(object sender, EventArgs e)
     {
-        // Connect to the Server !!
-        client = new(serverIp, port);
-        if (client.Connected)
+        try
         {
-            Message("Đã kết đối đến Server thành công!");
-            Send.Enabled = true;
-            Connect.Enabled = false;
-            filesToSend = []; // reset queue
-        }
-        else Message("Không thể kết nối đến Server!");
 
-        // this will include Endpoint
+
+            // Connect to the Server !!
+            client = new(serverIp, port);
+            if (client.Connected)
+            {
+                Message("Đã kết đối đến Server thành công!");
+                Send.Enabled = true;
+                Connect.Enabled = false;
+                filesToSend = []; // reset file storage
+            }
+            else Message("Không thể kết nối đến Server!");
+        }
+        catch (SocketException ex)
+        {
+            Message($"Không thể kết nối đến Server: {ex.Message}");
+        }
     }
 
 
@@ -164,9 +171,9 @@ public partial class Form1 : Form
         }
         else if (ext == ".wav")
         {
-            player = new (filePath);
-            player.Load();    
-            player.Play();       
+            player = new(filePath);
+            player.Load();
+            player.Play();
             Content.Text = "Play Preview";
         }
         else
