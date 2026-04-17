@@ -27,6 +27,7 @@ public partial class Form1 : Form
         {
             Message("Đã kết đối đến Server thành công!");
             Send.Enabled = true;
+            Connect.Enabled = false;
             filesToSend = []; // reset queue
         }
         else Message("Không thể kết nối đến Server!");
@@ -38,6 +39,7 @@ public partial class Form1 : Form
 
     private void Send_Click(object sender, EventArgs e)
     {
+        Connect.Enabled = true; 
         using NetworkStream stream = client.GetStream();
         using BinaryWriter writer = new(stream);
         foreach (string filePath in filesToSend)

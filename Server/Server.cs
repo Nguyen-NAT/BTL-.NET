@@ -6,6 +6,7 @@ using System.Threading;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Xml;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -26,10 +27,10 @@ namespace Server
                 TcpListener server = new(IPAddress.Any, Port);
                 server.Start();
                 Console.WriteLine("Server's Starting");
+                Console.WriteLine("Server's waiting for client!!\n");
                 while (true)
                 {
 
-                    Console.WriteLine("Server's waiting for client!!\n");
                     TcpClient client_ = server.AcceptTcpClient();
                     Console.WriteLine("\nClient Connected with" + client_.Client.RemoteEndPoint);
 
@@ -79,7 +80,7 @@ namespace Server
                 using FileStream File = new(fullPath, FileMode.Create);
                 CopyFixedBytes(stream, File, fileSize, fileName);
 
-                
+
                 // Legacy Code do NOT touch!
                 // Write it down in server
                 // byte[] buffer = new byte[4096];
@@ -100,7 +101,7 @@ namespace Server
             }
 
             Console.WriteLine("Client finished sending files.");
-            // client_.Close();
+            client_.Close();
 
         }
         private static void CopyFixedBytes(Stream input, Stream output, long bytesToCopy, string fileName)
@@ -118,7 +119,8 @@ namespace Server
                 totalRead += read;
 
                 double progress = (double)totalRead / bytesToCopy * 100;
-                Console.Write($"\rLoading {fileName}: {progress:f2}%");
+                // Console.WriteLine($"Loading {fileName}: ");
+                Console.Write($"\rLoading {fileName}: {progress}%");
                 Console.WriteLine();
             }
         }
