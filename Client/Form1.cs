@@ -11,6 +11,7 @@ public partial class Form1 : Form
     //declare a client;
     TcpClient? client = null;
     SoundPlayer? player;
+    List<TcpClient> allClients = [];
     string[] filesToSend = [];
 
     public Form1()
@@ -25,13 +26,13 @@ public partial class Form1 : Form
     {
         try
         {
-
-
             // Connect to the Server !!
             client = new(serverIp, port);
             if (client.Connected)
             {
                 Message("Đã kết đối đến Server thành công!");
+                allClients.Add(client);
+                // ListenForServerData();
                 Send.Enabled = true;
                 Connect.Enabled = false;
                 filesToSend = []; // reset file storage
@@ -44,15 +45,20 @@ public partial class Form1 : Form
         }
     }
 
-
-
     private void Send_Click(object sender, EventArgs e)
     {
+        if (filesToSend.Length == 0)
+        {
+            Message("Hãy thêm File trước khi gửi!");
+            return;
+        }
         Thread sendThread = new(() =>
         {
             Connect.Enabled = true;
-            using NetworkStream stream = client.GetStream();
-            using BinaryWriter writer = new(stream);
+            // dot not use "using" if you wanna disposing them
+            NetworkStream stream = client!.GetStream();
+            BinaryWriter writer = new(stream);
+
             foreach (string filePath in filesToSend)
             {
                 string fileName = Path.GetFileName(filePath);
@@ -70,32 +76,17 @@ public partial class Form1 : Form
                 // Sent File Size
                 writer.Write(fileSize);
 
-
-                // 
+                // //
                 // Sent File's Data
-                // 
+                // //
                 using FileStream File = new(filePath, FileMode.Open, FileAccess.Read);
                 File.CopyTo(stream);
 
-                // Legacy Code do NOT touch!
-                // byte[] buffer = new byte[4096];
-                // int bytesRead;
-                // long totalRead = 0;
-                // while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
-                // {
-                //     stream.Write(buffer, 0, bytesRead);
-                //     totalRead += bytesRead;
-                //     // cal percent downloaded 
-                //     double progress = (double)totalRead / fileSize * 100;
-                //     Console.Write($"\rLoading:{fileName}: {progress:f2}%");
-                //     Console.WriteLine();
-                // }
-
-                // Console.WriteLine($"Đã gửi file {fileName} ({fileSize} bytes).");
             }
-            writer.Write(0); // marker end
+            filesToSend = [];
+            // writer.Write(0); // marker end
             writer.Flush();
-            client.Close();
+            // client.Close();
         });
         sendThread.IsBackground = true; // auto close when closing app, using this preventing crash out
         sendThread.Start();
@@ -138,6 +129,10 @@ public partial class Form1 : Form
     }
     private void Exit_Click(object sender, EventArgs e)
     {
+        foreach (var client in allClients)
+        {
+            try { client.Close(); } catch { }
+        }
         Application.Exit();
     }
 
@@ -184,5 +179,63 @@ public partial class Form1 : Form
             Content.Text = "Not previewable";
         }
     }
+    private void ListenForServerData()
+    {
+        Thread recvThread = new(() =>
+        {
+            using NetworkStream stream = client.GetStream();
+            using BinaryReader reader = new(stream);
+
+            while (true)
+            {
+                try
+                {
+                    // 
+                    // Reading MetaData
+                    // 
+
+                    // Getting NameLength
+                    int nameLen = reader.ReadInt32();
+                    if (nameLen == 0) return; // marker end
+                    // Getting Name
+                    byte[] nameBytes = reader.ReadBytes(nameLen);
+                    string fileName = Encoding.UTF8.GetString(nameBytes);
+                    // Getting File
+                    long fileSize = reader.ReadInt64();
+
+                    using FileStream fs = new(fileName, FileMode.Create, FileAccess.Write);
+                    byte[] buffer = new byte[4096];
+                    long totalRead = 0;
+                    long remaining = fileSize;
+                    // Writing File into Destinated Folder
+                    while (remaining > 0)
+                    {
+                        int bytesRead = stream.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
+                        if (bytesRead == 0) break; // socket closed
+                        fs.Write(buffer, 0, bytesRead);
+
+                        totalRead += bytesRead;
+                        remaining -= bytesRead;
+
+                        // Loading Progress
+                        double progress = (double)totalRead / fileSize * 100;
+                        Console.WriteLine($"\rĐang nhận {fileName}: {progress:f2}%");
+                        //using progress bar later, Too lazy
+                    }
+
+                    Message($"Đã nhận xong file {fileName} ({fileSize} bytes).");
+                }
+                catch
+                {
+                    Message("Server đã đóng kết nối");
+                }
+
+            }
+        });
+        recvThread.IsBackground = true;
+        recvThread.Start();
+    }
+
+
 
 }

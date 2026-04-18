@@ -12,6 +12,11 @@ namespace Server
 {
     public class Program
     {
+        // Storing Client Info
+        // using String for storing IP and TcpClient/Socket for port
+        static Dictionary<string, TcpClient> connectedClients = new();
+
+
         //Setting up server
         public static void Main(string[] args)
         {
@@ -30,7 +35,6 @@ namespace Server
                 Console.WriteLine("Server's waiting for client!!\n");
                 while (true)
                 {
-
                     TcpClient client_ = server.AcceptTcpClient();
                     Console.WriteLine("\nClient Connected with" + client_.Client.RemoteEndPoint);
 
@@ -50,61 +54,72 @@ namespace Server
 
         private static void HandleClient(TcpClient client_, string Filepath)
         {
-            using NetworkStream stream = client_.GetStream();
-            using BinaryReader reader = new(stream);
 
-            while (true)
+            // with this we will have client's IP and Port
+            string clientId = client_.Client.RemoteEndPoint!.ToString()!;
+
+            lock (connectedClients)
             {
-                // Read Name Length
-                int nameLength;
-                try
-                {
-                    nameLength = reader.ReadInt32();
-                }
-                catch (EndOfStreamException)
-                {
-                    Console.WriteLine("Client Cooked!");
-                    break;
-                }
-                if (nameLength == 0)
-                {
-                    Console.WriteLine("Client finished sending files.");
-                    break; // marker kết thúc
-                }
-
-
-                // Read Name File
-                string fileName = Encoding.UTF8.GetString(reader.ReadBytes(nameLength));
-                // Read File Size 
-                long fileSize = reader.ReadInt64();
-                //kết hợp cả đường dẫn + tên của file.type
-                string fullPath = Path.Combine(Filepath, fileName);
-
-                using FileStream File = new(fullPath, FileMode.Create);
-                CopyFixedBytes(stream, File, fileSize, fileName);
-
-
-                // Legacy Code do NOT touch!
-                // Write it down in server
-                // byte[] buffer = new byte[4096];
-                // long totalRead = 0;
-                // while (totalRead < fileSize)
-                // {
-                //     int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                //     if (bytesRead == 0) throw new Exception("Client disconnected unexpectedly");
-                //     File.Write(buffer, 0, bytesRead);
-                //     totalRead += bytesRead;
-
-                //     // cal percent downloaded 
-                //     double progress = (double)totalRead / fileSize * 100;
-                //     Console.Write($"\rLoading {fileName}:  {progress:f2}%");
-                // }
-
-                Console.WriteLine($"File {fileName} received ({fileSize} bytes).");
+                connectedClients[clientId] = client_;
             }
 
-            client_.Close();
-            Console.WriteLine("Client finished sending files.");
+            Console.WriteLine("client info");
+            foreach (var kv in connectedClients)
+            {
+                Console.WriteLine($"ID: {kv.Key}");
+            }
+
+            try
+            {
+                using NetworkStream stream = client_.GetStream();
+                using BinaryReader reader = new(stream);
+                // Process Client File
+                while (true)
+                {
+                    // Read Name Length
+                    int nameLength;
+                    int FileCount = 0;
+                    try
+                    {
+                        nameLength = reader.ReadInt32();
+                        FileCount++;
+                    }
+                    catch (EndOfStreamException)
+                    {
+                        Console.WriteLine($"Client {clientId} đã ngắt kết nối");
+                        lock (connectedClients)
+                        {
+                            connectedClients.Remove(clientId);
+                        }
+                        client_.Close();
+                        break;
+                    }
+                    if (nameLength == 0)
+                    {
+                        Console.WriteLine($"Client finished sending {FileCount} files.");
+                        break; // Marker End here
+                    }
+
+
+                    // Read Name File
+                    string fileName = Encoding.UTF8.GetString(reader.ReadBytes(nameLength));
+                    // Read File Size 
+                    long fileSize = reader.ReadInt64();
+                    //kết hợp cả đường dẫn + tên của file.type
+                    string fullPath = Path.Combine(Filepath, fileName);
+
+                    using FileStream File = new(fullPath, FileMode.Create);
+                    CopyFixedBytes(stream, File, fileSize, fileName);
+
+                    Console.WriteLine($"File {fileName} received ({fileSize} bytes).");
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"Client {clientId} đã đóng kết nối");
+            }
+
+            // client_.Close();
 
         }
         private static void CopyFixedBytes(Stream input, Stream output, long bytesToCopy, string fileName)
@@ -126,6 +141,38 @@ namespace Server
                 Console.Write($"\rLoading {fileName}: {progress}%");
                 Console.WriteLine();
             }
+        }
+
+        private static void SendFileToClient(TcpClient client, string FilePath)
+        {
+
+            // Showing All Client 
+            foreach (var kv in connectedClients)
+            {
+                Console.WriteLine($"ID: {kv.Key}");
+            }
+
+
+            using NetworkStream stream = client.GetStream();
+            using BinaryWriter writer = new(stream);
+
+            string fileName = Path.GetFileName(FilePath);
+            byte[] nameBytes = Encoding.UTF8.GetBytes(fileName);
+            long fileSize = new FileInfo(FilePath).Length;
+
+            writer.Write(nameBytes.Length);
+            writer.Write(nameBytes);
+            writer.Write(fileSize);
+
+            using FileStream fs = new(FilePath, FileMode.Open, FileAccess.Read);
+            fs.CopyTo(stream);
+
+            writer.Flush();
+
+
+
+
+
         }
     }
 
