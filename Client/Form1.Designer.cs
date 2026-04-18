@@ -28,17 +28,19 @@ partial class Form1
     /// </summary>
     private System.Windows.Forms.TextBox Title;
     private System.Windows.Forms.TextBox Content;
-    private System.Windows.Forms.Label Notification;
     private System.Windows.Forms.Button Connect;
     private System.Windows.Forms.Button Send;
     private System.Windows.Forms.Button Addfile;
     private System.Windows.Forms.Button Clear;
     private System.Windows.Forms.Button Exit;
+    private System.Windows.Forms.Label Notification;
     private System.Windows.Forms.Label LoadfileNof;
     private System.Windows.Forms.Label ContentLabel;
     private System.Windows.Forms.Label TitleLabel;
+    private System.Windows.Forms.Label Downloadlabel;
     private System.Windows.Forms.PictureBox Picturebox;
-    private System.Windows.Forms.ListBox Listbox;
+    private System.Windows.Forms.ListBox Listboxtitle;
+    private System.Windows.Forms.ListBox Listboxdownload;
     private System.Windows.Forms.ProgressBar Downloadbar;
     private System.Windows.Forms.Label DownloadNof;
 
@@ -46,14 +48,24 @@ partial class Form1
     private void InitializeComponent()
 
     {
+            this.Listboxdownload = new System.Windows.Forms.ListBox();
+            this.Listboxdownload.Location = new System.Drawing.Point(430, 446);
+            this.Listboxdownload.Size = new System.Drawing.Size(160, 40);
+
+            this.Downloadlabel = new System.Windows.Forms.Label();
+            this.Downloadlabel.Location = new System.Drawing.Point(430, 426);
+            this.Downloadlabel.Size = new System.Drawing.Size(160, 20);
+            this.Downloadlabel.Text = "Danh sách:";
+
+
             this.DownloadNof = new System.Windows.Forms.Label();
-            this.DownloadNof.Location = new System.Drawing.Point(430, 446);
+            this.DownloadNof.Location = new System.Drawing.Point(430, 490);
             this.DownloadNof.Size = new System.Drawing.Size(160, 24);
             this.DownloadNof.Text = "Loading:";
 
 
             this.Downloadbar = new System.Windows.Forms.ProgressBar();
-            this.Downloadbar.Location = new System.Drawing.Point(430, 466);
+            this.Downloadbar.Location = new System.Drawing.Point(430, 510);
             this.Downloadbar.Size = new System.Drawing.Size(160, 24);
 
             this.LoadfileNof = new System.Windows.Forms.Label();
@@ -90,9 +102,9 @@ partial class Form1
             this.TitleLabel.Size = new System.Drawing.Size(112, 24);
             // this.TitleLabel.Text = "Tiêu đề:";
 
-            this.Listbox = new System.Windows.Forms.ListBox();
-            this.Listbox.Location = new System.Drawing.Point(48, 112);
-            this.Listbox.Size = new System.Drawing.Size(288, 48);
+            this.Listboxtitle = new System.Windows.Forms.ListBox();
+            this.Listboxtitle.Location = new System.Drawing.Point(48, 112);
+            this.Listboxtitle.Size = new System.Drawing.Size(288, 48);
 
             this.Picturebox = new System.Windows.Forms.PictureBox();
             this.Picturebox.Location = new System.Drawing.Point(48, 200);
@@ -100,7 +112,7 @@ partial class Form1
             this.Picturebox.SizeMode = PictureBoxSizeMode.Zoom;
 
             this.Notification = new System.Windows.Forms.Label();
-            this.Notification.Location = new System.Drawing.Point(32, 32);
+            this.Notification.Location = new System.Drawing.Point(50, 32);
             this.Notification.Size = new System.Drawing.Size(536, 24);
             this.Notification.TextAlign = ContentAlignment.MiddleRight;
 
@@ -139,7 +151,7 @@ partial class Form1
             // Khung Panel bao quanh toàn bộ nội dung
             Panel mainPanel = new Panel();
             mainPanel.Location = new Point(20, 20);
-            mainPanel.Size = new Size(600, 500);    
+            mainPanel.Size = new Size(600, 550);    
             mainPanel.BorderStyle = BorderStyle.FixedSingle; 
             
 
@@ -154,18 +166,18 @@ partial class Form1
             // this.TitleLabel.Location = new Point(16, 24);
             this.Title.Location = new Point(16, 30);
             this.Title.Size = new Size(320, 30);
-            this.Listbox.Location = new Point(16, 70);
-            this.Listbox.Size = new Size(320, 45);
+            this.Listboxtitle.Location = new Point(16, 70);
+            this.Listboxtitle.Size = new Size(320, 45);
 
             // gbTitle.Controls.Add(this.TitleLabel);
             gbTitle.Controls.Add(this.Title);
-            gbTitle.Controls.Add(this.Listbox);
+            gbTitle.Controls.Add(this.Listboxtitle);
 
             // GroupBox cho Nội dung/Ảnh
             GroupBox gbContent = new GroupBox();
             gbContent.Text = "Nội dung / Ảnh";
             gbContent.Location = new Point(40, 220);
-            gbContent.Size = new Size(360, 270);
+            gbContent.Size = new Size(360, 320);
 
             // this.ContentLabel.Location = new Point(16, 24);
             this.Content.Location = new Point(16, 30);
@@ -202,6 +214,8 @@ partial class Form1
             // this.Controls.Add(LoadfileNof);
             this.Controls.Add(Downloadbar);
             this.Controls.Add(DownloadNof);
+            this.Controls.Add(Downloadlabel);
+            this.Controls.Add(Listboxdownload);
 
             this.Controls.Add(mainPanel);
 
@@ -235,11 +249,11 @@ partial class Form1
         this.Connect.Click += new System.EventHandler(this.Connect_Click);
         // this.Controls.Add(this.Connect);
 
-        this.Listbox.SelectedIndexChanged += new System.EventHandler(this.Listbox_SelectedIndexChanged);
+        this.Listboxtitle.SelectedIndexChanged += new System.EventHandler(this.Listbox_SelectedIndexChanged);
 
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(650, 550);
+        ClientSize = new Size(650, 600);
         Text = "Form1";
     }
 
