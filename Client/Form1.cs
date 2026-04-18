@@ -111,10 +111,10 @@ public partial class Form1 : Form
             // Show Number of Files
             Title.Text = $"Số lượng file: {filesToSend.Length}";
             // Show File list in listbox
-            Listbox.Items.Clear();
+            Listboxtitle.Items.Clear();
             foreach (var file in filesToSend)
             {
-                Listbox.Items.Add(Path.GetFileName(file));
+                Listboxtitle.Items.Add(Path.GetFileName(file));
             }
 
 
@@ -143,9 +143,9 @@ public partial class Form1 : Form
 
     private void Listbox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (Listbox.SelectedIndex == -1) return;
+        if (Listboxtitle.SelectedIndex == -1) return;
 
-        string filePath = filesToSend[Listbox.SelectedIndex];
+        string filePath = filesToSend[Listboxtitle.SelectedIndex];
         string ext = Path.GetExtension(filePath).ToLower();
 
         if (ext == ".docx" || ext == ".txt" || ext == ".log" || ext == ".csv" || ext == ".json" || ext == ".xml")
