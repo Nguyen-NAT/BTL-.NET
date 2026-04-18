@@ -1,6 +1,7 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Media;
+using System.Net;
 
 namespace Client;
 
@@ -13,6 +14,8 @@ public partial class Form1 : Form
     SoundPlayer? player;
     List<TcpClient> allClients = [];
     string[] filesToSend = [];
+
+    string ClientFolder = "../ClientFolder";
 
     public Form1()
     {
@@ -32,7 +35,8 @@ public partial class Form1 : Form
             {
                 Message("Đã kết đối đến Server thành công!");
                 allClients.Add(client);
-                // ListenForServerData();
+                ClientList.Items.Add($"Client#{allClients.Count}:{client.Client.RemoteEndPoint!.ToString()!}");
+                ListenForServerData();
                 Send.Enabled = true;
                 Connect.Enabled = false;
                 filesToSend = []; // reset file storage
@@ -88,8 +92,8 @@ public partial class Form1 : Form
             writer.Flush();
             // client.Close();
         });
-        sendThread.IsBackground = true; // auto close when closing app, using this preventing crash out
         sendThread.Start();
+        sendThread.IsBackground = true; // auto close when closing app, using this preventing crash out
     }
 
     private void Addfile_Click(object sender, EventArgs e)
@@ -116,16 +120,36 @@ public partial class Form1 : Form
             {
                 Listboxtitle.Items.Add(Path.GetFileName(file));
             }
-
-
         }
     }
 
     private void Clear_Click(object sender, EventArgs e)
     {
+        // basically clear everything
         Title.Clear();
         Content.Clear();
         Notification.Text = "";
+        Listboxtitle.Items.Clear();
+        filesToSend = [];
+        Downloadbar.Value = 0;
+        // also clear current client
+        try
+        {
+            client!.Close();
+            int index = allClients.IndexOf(client);
+            if (index >= 0)
+            {
+                allClients.RemoveAt(index);//remove client from list 
+                ClientList.Items.RemoveAt(index); //remove client from UI (listbox)
+            }
+        }
+        catch (Exception ex)
+        {
+            Message($"Có lỗi khi xóa Client: {ex.Message}");
+        }
+
+        Connect.Enabled = true;
+        // Addfile.Enabled = false;
     }
     private void Exit_Click(object sender, EventArgs e)
     {
@@ -141,6 +165,10 @@ public partial class Form1 : Form
         Notification.Text = mess;
     }
 
+    private void downloadMessage(string mess)
+    {
+        DownloadNof.Text = mess;
+    }
     private void Listbox_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (Listboxtitle.SelectedIndex == -1) return;
@@ -179,11 +207,26 @@ public partial class Form1 : Form
             Content.Text = "Not previewable";
         }
     }
+    private void ClientList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ClientList.SelectedIndex == -1) return;
+
+        client = allClients[ClientList.SelectedIndex]; // switch to choosen client
+
+        if (client.Connected)
+        {
+            Message($"Đã chọn client {ClientList.SelectedItem}");
+        }
+        else
+        {
+            Message("Client này đã ngắt kết nối!");
+        }
+    }
     private void ListenForServerData()
     {
         Thread recvThread = new(() =>
         {
-            using NetworkStream stream = client.GetStream();
+            using NetworkStream stream = client!.GetStream();
             using BinaryReader reader = new(stream);
 
             while (true)
@@ -194,20 +237,32 @@ public partial class Form1 : Form
                     // Reading MetaData
                     // 
 
+
+                    // Getting Header
+                    int infoLength = reader.ReadInt32();
+                    byte[] infoBytes = reader.ReadBytes(infoLength);
+                    string clientInfo = Encoding.UTF8.GetString(infoBytes);
                     // Getting NameLength
                     int nameLen = reader.ReadInt32();
                     if (nameLen == 0) return; // marker end
                     // Getting Name
                     byte[] nameBytes = reader.ReadBytes(nameLen);
-                    string fileName = Encoding.UTF8.GetString(nameBytes);
+                    string fileName = "Server." + Encoding.UTF8.GetString(nameBytes);
                     // Getting File
                     long fileSize = reader.ReadInt64();
 
-                    using FileStream fs = new(fileName, FileMode.Create, FileAccess.Write);
+                    //create directory
+                   
+                    string ServerFolderPath = Path.Combine(ClientFolder, clientInfo);
+                    Directory.CreateDirectory(ServerFolderPath);
+                    string fullPath = Path.Combine(ServerFolderPath, fileName);
+
+                    // Writing File into Destinated Folder
+                    using FileStream fs = new(fullPath, FileMode.Create, FileAccess.Write);
                     byte[] buffer = new byte[4096];
                     long totalRead = 0;
                     long remaining = fileSize;
-                    // Writing File into Destinated Folder
+                    downloadMessage($"Đang tải {fileName}...");
                     while (remaining > 0)
                     {
                         int bytesRead = stream.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
@@ -219,23 +274,21 @@ public partial class Form1 : Form
 
                         // Loading Progress
                         double progress = (double)totalRead / fileSize * 100;
-                        Console.WriteLine($"\rĐang nhận {fileName}: {progress:f2}%");
-                        //using progress bar later, Too lazy
+                        Downloadbar.Value = (int)progress;
                     }
+                    downloadMessage($"Đã tải xong {fileName}");
 
-                    Message($"Đã nhận xong file {fileName} ({fileSize} bytes).");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Message("Server đã đóng kết nối");
+                    Message($"Server đã đóng kết nối {ex.Message}");
+
                 }
 
             }
         });
-        recvThread.IsBackground = true;
         recvThread.Start();
+        recvThread.IsBackground = true;
     }
-
-
 
 }

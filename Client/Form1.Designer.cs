@@ -37,10 +37,10 @@ partial class Form1
     private System.Windows.Forms.Label LoadfileNof;
     private System.Windows.Forms.Label ContentLabel;
     private System.Windows.Forms.Label TitleLabel;
-    private System.Windows.Forms.Label Downloadlabel;
+    private System.Windows.Forms.Label ClientLabel;
     private System.Windows.Forms.PictureBox Picturebox;
     private System.Windows.Forms.ListBox Listboxtitle;
-    private System.Windows.Forms.ListBox Listboxdownload;
+    private System.Windows.Forms.ListBox ClientList;
     private System.Windows.Forms.ProgressBar Downloadbar;
     private System.Windows.Forms.Label DownloadNof;
 
@@ -48,14 +48,14 @@ partial class Form1
     private void InitializeComponent()
 
     {
-            this.Listboxdownload = new System.Windows.Forms.ListBox();
-            this.Listboxdownload.Location = new System.Drawing.Point(430, 446);
-            this.Listboxdownload.Size = new System.Drawing.Size(160, 40);
+            this.ClientList = new System.Windows.Forms.ListBox();
+            this.ClientList.Location = new System.Drawing.Point(430, 446);
+            this.ClientList.Size = new System.Drawing.Size(160, 40);
 
-            this.Downloadlabel = new System.Windows.Forms.Label();
-            this.Downloadlabel.Location = new System.Drawing.Point(430, 426);
-            this.Downloadlabel.Size = new System.Drawing.Size(160, 20);
-            this.Downloadlabel.Text = "Danh sách:";
+            this.ClientLabel = new System.Windows.Forms.Label();
+            this.ClientLabel.Location = new System.Drawing.Point(430, 426);
+            this.ClientLabel.Size = new System.Drawing.Size(160, 20);
+            this.ClientLabel.Text = "Danh sách:";
 
 
             this.DownloadNof = new System.Windows.Forms.Label();
@@ -214,8 +214,8 @@ partial class Form1
             // this.Controls.Add(LoadfileNof);
             this.Controls.Add(Downloadbar);
             this.Controls.Add(DownloadNof);
-            this.Controls.Add(Downloadlabel);
-            this.Controls.Add(Listboxdownload);
+            this.Controls.Add(ClientLabel);
+            this.Controls.Add(ClientList);
 
             this.Controls.Add(mainPanel);
 
@@ -250,6 +250,10 @@ partial class Form1
         // this.Controls.Add(this.Connect);
 
         this.Listboxtitle.SelectedIndexChanged += new System.EventHandler(this.Listbox_SelectedIndexChanged);
+
+        this.ClientList.SelectedIndexChanged += new System.EventHandler(this.ClientList_SelectedIndexChanged);
+
+
 
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
