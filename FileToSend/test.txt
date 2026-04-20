@@ -1,7 +1,3 @@
+this is working!!
 
-duc anh gay
-duc anh gay
-duc anh gay
-duc anh gay
-duc anh gay
-duc anh gay
+this is a file test for server sending file to server!

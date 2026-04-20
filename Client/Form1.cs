@@ -243,10 +243,10 @@ public partial class Form1 : Form
     {
         Thread recvThread = new(() =>
         {
-            using NetworkStream stream = client!.GetStream();
-            using BinaryReader reader = new(stream);
+            NetworkStream stream = client!.GetStream();
+            BinaryReader reader = new(stream);
 
-            while (true)
+            while (client.Connected)
             {
                 try
                 {
@@ -295,10 +295,10 @@ public partial class Form1 : Form
                     downloadMessage($"Đã tải xong {fileName}");
 
                 }
-                catch (Exception ex)
+                catch (IOException)
                 {
                     Message($"Server đã đóng kết nối!!");
-                    
+                    return;
                 }
 
             }
