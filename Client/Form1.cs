@@ -38,6 +38,8 @@ public partial class Form1 : Form
                 ClientList.Items.Add($"Client#{allClients.Count}");
                 ListenForServerData();
                 Send.Enabled = true;
+                Addfile.Enabled = true;
+                Clear.Enabled = true;
                 Connect.Enabled = false;
                 filesToSend = []; // reset file storage
             }
