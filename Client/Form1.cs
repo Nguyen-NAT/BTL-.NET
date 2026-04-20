@@ -35,17 +35,20 @@ public partial class Form1 : Form
             {
                 Message("Đã kết đối đến Server thành công!");
                 allClients.Add(client);
-                ClientList.Items.Add($"Client#{allClients.Count}:{client.Client.RemoteEndPoint!.ToString()!}");
+                ClientList.Items.Add($"Client#{allClients.Count}");
                 ListenForServerData();
                 Send.Enabled = true;
                 Connect.Enabled = false;
                 filesToSend = []; // reset file storage
             }
-            else Message("Không thể kết nối đến Server!");
+            else Message("Không thể kết nối đến Server");
         }
         catch (SocketException ex)
         {
-            Message($"Không thể kết nối đến Server: {ex.Message}");
+            Message($"Không thể kết nối đến Server!: {ex.Message}");
+            Addfile.Enabled = false;
+            Clear.Enabled = false;
+            Exit.Enabled = true;
         }
     }
 
@@ -56,49 +59,58 @@ public partial class Form1 : Form
             Message("Hãy thêm File trước khi gửi!");
             return;
         }
-        Thread sendThread = new(() =>
+        else
         {
-            Connect.Enabled = true;
-            // dot not use "using" if you wanna disposing them
-            NetworkStream stream = client!.GetStream();
-            BinaryWriter writer = new(stream);
 
-            foreach (string filePath in filesToSend)
+
+            Thread sendThread = new(() =>
             {
-                string fileName = Path.GetFileName(filePath);
-                byte[] nameBytes = Encoding.UTF8.GetBytes(fileName);
-                long fileSize = new FileInfo(filePath).Length;
+                Connect.Enabled = true;
+                // dot not use "using" if you wanna disposing them
+                NetworkStream stream = client!.GetStream();
+                BinaryWriter writer = new(stream);
 
-                // //
-                // Send Metadata
-                // //
+                foreach (string filePath in filesToSend)
+                {
+                    string fileName = Path.GetFileName(filePath);
+                    byte[] nameBytes = Encoding.UTF8.GetBytes(fileName);
+                    long fileSize = new FileInfo(filePath).Length;
 
-                // Sent Name Length
-                writer.Write(nameBytes.Length);
-                // Sent Name File
-                writer.Write(nameBytes);
-                // Sent File Size
-                writer.Write(fileSize);
+                    // //
+                    // Send Metadata
+                    // //
 
-                // //
-                // Sent File's Data
-                // //
-                using FileStream File = new(filePath, FileMode.Open, FileAccess.Read);
-                File.CopyTo(stream);
+                    // Sent Name Length
+                    writer.Write(nameBytes.Length);
+                    // Sent Name File
+                    writer.Write(nameBytes);
+                    // Sent File Size
+                    writer.Write(fileSize);
 
-            }
-            filesToSend = [];
-            // writer.Write(0); // marker end
-            writer.Flush();
-            // client.Close();
-        });
-        sendThread.Start();
-        sendThread.IsBackground = true; // auto close when closing app, using this preventing crash out
+                    // //
+                    // Sent File's Data
+                    // //
+                    using FileStream File = new(filePath, FileMode.Open, FileAccess.Read);
+                    File.CopyTo(stream);
+
+                }
+                filesToSend = [];
+                Content.Clear();
+                Picturebox.Image = null;
+                Title.Clear();
+                Listboxtitle.Items.Clear();
+                Downloadbar.Value = 0;
+                writer.Flush();
+
+            });
+            sendThread.Start();
+            sendThread.IsBackground = true; // auto close when closing app, using this preventing crash out
+        }
     }
 
     private void Addfile_Click(object sender, EventArgs e)
     {
-        filesToSend = [];
+        // filesToSend = []; do not clear storage file list
         using OpenFileDialog Explorer = new()
         {
             Title = "Choose Your File!",
@@ -128,10 +140,13 @@ public partial class Form1 : Form
         // basically clear everything
         Title.Clear();
         Content.Clear();
+        Picturebox.Image = null;
         Notification.Text = "";
         Listboxtitle.Items.Clear();
         filesToSend = [];
         Downloadbar.Value = 0;
+
+
         // also clear current client
         try
         {
@@ -237,7 +252,6 @@ public partial class Form1 : Form
                     // Reading MetaData
                     // 
 
-
                     // Getting Header
                     int infoLength = reader.ReadInt32();
                     byte[] infoBytes = reader.ReadBytes(infoLength);
@@ -252,7 +266,7 @@ public partial class Form1 : Form
                     long fileSize = reader.ReadInt64();
 
                     //create directory
-                   
+
                     string ServerFolderPath = Path.Combine(ClientFolder, clientInfo);
                     Directory.CreateDirectory(ServerFolderPath);
                     string fullPath = Path.Combine(ServerFolderPath, fileName);
@@ -281,8 +295,8 @@ public partial class Form1 : Form
                 }
                 catch (Exception ex)
                 {
-                    Message($"Server đã đóng kết nối {ex.Message}");
-
+                    Message($"Server đã đóng kết nối!!");
+                    
                 }
 
             }
